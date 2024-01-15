@@ -1,34 +1,33 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import { Route, Routes } from "react-router-dom";
 import AboutUs from "./components/AboutUs";
 import ContactUs from "./components/ContactUs";
-import LayOut from "./components/LayOut";
 import Error404 from "./components/Error404";
+import Home from "./components/Home";
+import LayOut from "./components/LayOut";
 // import SearchCity from "./components/SearchCity";
-import Account from "./components/Account";
-import ComplexDetails from "./components/ComplexDetails";
-import ComplexContainer from "./components/complexContainer";
-import ComplexFavorite from "./components/ComplexFavorite";
-import Register from "./components/Register";
-import Login from "./components/Login";
-import ForgotPassword from "./components/ForgotPassword";
-import NewPassword from "./components/NewPassword";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { checkUserSession } from "./redux/actions";
+import Account from "./components/Account";
+import ComplexDetails from "./components/ComplexDetails";
+import ComplexFavorite from "./components/ComplexFavorite";
 import ConfirmAccount from "./components/ConfirmAccount";
-import ComplexForm from "./components/complexform";
-import Reservations from "./components/Reservations";
 import CreateCourt from "./components/CreateCourt";
-import ComplejoDisplayer from "./components/ComplejoDisplayer";
-import { GoogleOAuthProvider } from "@react-oauth/google";
+import ForgotPassword from "./components/ForgotPassword";
+import Login from "./components/Login";
+import NewPassword from "./components/NewPassword";
+import Register from "./components/Register";
 import ReservationCourt from "./components/ReservationCourt";
+import Reservations from "./components/Reservations";
+import ComplexContainer from "./components/complexContainer";
+import ComplexForm from "./components/complexform";
+import { checkUserSession } from "./redux/actions";
 
 function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkUserSession());
+    if (localStorage.getItem("token")) dispatch(checkUserSession());
   }, [dispatch]);
 
   return (
@@ -45,15 +44,14 @@ function App() {
           <Route path="login" element={<Login />} />
           <Route path="forgot-password" element={<ForgotPassword />} />
           <Route path="forgot-password/:token" element={<NewPassword />} />
-          <Route path="confirm-account/:token" element={<ConfirmAccount />} />
-          <Route path="search" element={<ComplexContainer />} />
+          <Route path="confirm-account" element={<ConfirmAccount />} />
+          <Route path="search/:province/:city" element={<ComplexContainer />} />
           <Route path="create" element={<ComplexForm />} />
           <Route path="search/:id" element={<ComplexDetails />} />
           <Route path="reservations" element={<Reservations />} />
-          <Route path="complejodisplayer" element={<ComplejoDisplayer />} />
           <Route path="createcourt/:id" element={<CreateCourt />} />
           <Route
-            path="reservation/:id/:duration_turn"
+            path="reservation/:courtId/:complexId"
             element={<ReservationCourt />}
           />
         </Route>

@@ -1,113 +1,121 @@
 import * as actions from "../actionTypes";
 
 const initialState = {
-  allComplexs: [],
-  allReviews:[],
-  complexs: [],
-  detail: {},
   currentUser: null,
-  sports:[],
-  services:[],
-  favUser:[],
-  allUsers:[],
-  users:[]
+  allComplexs: [],
+  allReviews: [],
+  userComplexs: [],
+  complexs: [],
+  courts: [],
+  events: [],
+  reviews: [],
+  services: [],
+  shifts: [],
+  typecourts: [],
+  detail: {},
+  favUser: [],
+  allUsers: [],
+};
+
+const actionHandlers = {
+  [actions.GET_ALL_USER]: (state, action) => ({
+    ...state,
+    allUsers: action.payload,
+  }),
+  [actions.GET_ALL_COMPLEX]: (state, action) => ({
+    ...state,
+    allComplexs: action.payload,
+  }),
+  [actions.GET_ALL_COURT]: (state, action) => ({
+    ...state,
+    courts: action.payload,
+  }),
+  [actions.GET_ALL_EVENT]: (state, action) => ({
+    ...state,
+    events: action.payload,
+  }),
+  [actions.GET_ALL_REVIEW]: (state, action) => ({
+    ...state,
+    reviews: action.payload,
+  }),
+  [actions.GET_ALL_SERVICES]: (state, action) => ({
+    ...state,
+    services: action.payload,
+  }),
+  [actions.GET_ALL_SHIFT]: (state, action) => ({
+    ...state,
+    shifts: action.payload,
+  }),
+  [actions.GET_ALL_TYPECOURT]: (state, action) => ({
+    ...state,
+    typecourts: action.payload,
+  }),
+
+  [actions.GET_COMPLEX_DETAIL]: (state, action) => ({
+    ...state,
+    detail: action.payload,
+  }),
+
+  [actions.GET_USER_DETAIL]: (state, action) => ({
+    ...state,
+    currentUser: action.payload,
+  }),
+
+  [actions.FILTER_BY_SPORT]: (state, action) => ({
+    ...state,
+    complexs: action.payload,
+  }),
+  [actions.FILTER_BY_SERVICE]: (state, action) => ({
+    ...state,
+    complexs: action.payload,
+  }),
+  [actions.FILTER_BY_AZ]: (state, action) => ({
+    ...state,
+    complexs: action.payload,
+  }),
+  [actions.FILTER_BY_ZA]: (state, action) => ({
+    ...state,
+    complexs: action.payload,
+  }),
+  [actions.REMOVE_FILTERS]: (state, action) => ({
+    ...state,
+    complexs: [...action.payload],
+  }),
+  [actions.SEARCH_BY_CITY]: (state, action) => ({
+    ...state,
+    complexs: action.payload,
+    allComplexs: action.payload,
+  }),
+  [actions.ADD_FAVORITE]: (state, action) => ({
+    ...state,
+    currentUser: { ...state.currentUser, favorites: action.payload },
+  }),
+  [actions.SET_CURRENT_USER]: (state, action) => ({
+    ...state,
+    currentUser: action.payload,
+  }),
+  [actions.LOGOUT_CURRENT_USER]: (state, action) => ({
+    ...state,
+    currentUser: action.payload,
+  }),
+  [actions.CHECK_USER_SESSION]: (state, action) => ({
+    ...state,
+    currentUser: action.payload,
+  }),
+
+  [actions.GET_USER_COMPLEX]: (state, action) => ({
+    ...state,
+    userComplexs: action.payload,
+  }),
+  [actions.GET_USER_SHIFT]: (state, action) => ({
+    ...state,
+    shifts: action.payload,
+  }),
 };
 
 const rootReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case actions.GET_ALL_COMPLEX:
-      return {
-        ...state,
-        allComplexs: action.payload.data,
-        complexs: action.payload.logic,
-      };
-    case actions.GET_COMPLEX_DETAIL:
-      return {
-        ...state,
-        detail: action.payload,
-      };
-      case actions.GET_USER_DETAIL:
-        return {
-          ...state,
-          currentUser: action.payload
-        };
-    case actions.GET_ALL_SERVICES:
-      return {
-        ...state,
-        services: action.payload,
-      };
-    case actions.GET_ALL_TYPECOURT:
-      return {
-        ...state,
-        sports: action.payload,
-      };
-    case actions.FILTER_BY_SPORT:
-      return {
-        ...state,
-        complexs: action.payload,
-      };
-    case actions.FILTER_BY_SERVICE:
-      return {
-        ...state,
-        complexs: action.payload,
-      };
-    case actions.FILTER_BY_AZ:
-      return {
-        ...state,
-        complexs: action.payload,
-      };
-    case actions.SEARCH_BY_CITY:
-      return {
-        ...state,
-        complexs: action.payload,
-      };
-    case actions.ADD_FAVORITE:
-      return {
-        ...state,
-        favUser: action.payload,
-      };
-    case actions.SET_CURRENT_USER:
-      return {
-        ...state,
-        currentUser:action.payload
-      };
-    case actions.LOGOUT_CURRENT_USER:
-      return {
-        ...state,
-        currentUser: action.payload,
-      };
-    case actions.CHECK_USER_SESSION:
-      return {
-        ...state,
-        currentUser: action.payload,
-      };
-    case actions.GET_ALL_USER:
-      return {
-        ...state,
-        allUsers: action.payload.api,
-        users:action.payload.logic
-      };
-    case actions.GET_ALL_REVIEW:
-      return {
-        ...state,
-        allReviews: action.payload,
-      };
-    case actions.UPDATE_FAVORITES:
-      return {
-        ...state,
-        currentUser: {...state.currentUser, favorites:[...state.currentUser.favorites, ...action.payload]},
-      };
-    case actions.UPDATE_FAVORITES_DEL:
-      return {
-        ...state,
-        currentUser: {...state.currentUser, favorites:action.payload},
-      };
-
-    default:
-      return state
-
-  }
+  const handler = actionHandlers[action.type];
+  return handler ? handler(state, action) : state;
 };
 
 export default rootReducer;
-

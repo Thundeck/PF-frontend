@@ -1,9 +1,14 @@
-import { complexs } from "../data/complexsExample";
+import { getMostLiked } from "../redux/actions";
 import ComplexCard from "./ComplexCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const ComplexList = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [complexs, setComplexs] = useState([]);
+
+  useEffect(() => {
+    getMostLiked(setComplexs);
+  }, []);
 
   const nextIndex = () => {
     if (currentIndex === complexs.length - 1) {
@@ -32,42 +37,16 @@ const ComplexList = () => {
         <ComplexCard complexDetails={complexs[currentIndex]} />
         <div className="flex flex-row items-center justify-center space-x-12 w-full h-1/6">
           <button
-            className="flex items-center justify-center w-10 h-10 text-white bg-gray-800 rounded-full shadow-md hover:bg-gray-700 focus:outline-none"
+            className="flex items-center justify-center w-10 h-10 text-white bg-principal hover:bg-principal/70 rounded-full"
             onClick={() => setCurrentIndex(prevIndex)}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
+            <i className="fa-solid fa-chevron-left"></i>
           </button>
           <button
-            className="flex items-center justify-center w-10 h-10 text-white bg-gray-800 rounded-full shadow-md hover:bg-gray-700 focus:outline-none"
+            className="flex items-center justify-center w-10 h-10 text-white bg-principal hover:bg-principal/70 rounded-full"
             onClick={() => setCurrentIndex(nextIndex)}
           >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 5l7 7-7 7"
-              />
-            </svg>
+            <i className="fa-solid fa-chevron-right"></i>
           </button>
         </div>
       </div>
