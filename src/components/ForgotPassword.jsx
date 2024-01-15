@@ -1,30 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import Alert from "../components/Alert";
 import clientAxios from "../config/clientAxios";
+import { NotificationFailure, NotificationSuccess } from "../utils/tostify.ts";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
-  const [alert, setAlert] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (email === "" || email.length < 6) {
-      return setAlert({ msg: "Email is required", error: true });
+      NotificationFailure("Email is required", "top-");
     }
 
     try {
       const { data } = await clientAxios.post("/clients/forgot-password", {
         email,
       });
-      setAlert({ msg: data, error: false });
+      NotificationSuccess(data, "top-right");
     } catch (error) {
-      return setAlert({ msg: error.response.data, error: true });
+      NotificationFailure(error.message, "top-right");
     }
   };
-
-  const { msg } = alert;
 
   return (
     <>
@@ -32,8 +29,6 @@ const ForgotPassword = () => {
         Recover your account and don't lose your{" "}
         <span className="text-slate-700">projects</span>
       </h1>
-
-      {msg && <Alert alert={alert} />}
 
       <form
         className="px-10 py-10 my-10 bg-white rounded-lg shadow"

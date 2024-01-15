@@ -1,25 +1,25 @@
 import { useSelector } from "react-redux";
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import OwnerDashboard from "./OwnerDashboard";
 import UserDashBoard from "./UserDashboard";
-import Develop from "./DeveloperDashBoard"
+import Develop from "./DeveloperDashBoard";
 
 const Account = () => {
   const currentUser = useSelector((state) => state.currentUser);
+  const navigate = useNavigate();
 
-  if (!currentUser) return <Navigate to="/login" replace />;
+  if (!currentUser) return navigate("/login");
 
   const dashBoard = () => {
-    if(currentUser.rol === "admin") return <Develop/>
-    if(currentUser.rol === "owner") return <OwnerDashboard/>
-  }
+    if (currentUser.rol === "admin") return <Develop />;
+    if (currentUser.rol === "owner") return <OwnerDashboard />;
+  };
 
-  
   return (
-    <>
-    { currentUser.rol !== "admin" && <UserDashBoard />}
-    {dashBoard()}
-    </>
+    <main>
+      {currentUser.rol !== "admin" && <UserDashBoard />}
+      {dashBoard()}
+    </main>
   );
 };
 

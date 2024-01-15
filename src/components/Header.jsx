@@ -10,11 +10,11 @@ const Header = () => {
         src={home1}
         alt="Messi"
       />
-      <div className="w-full absolute top-1/2 -translate-y-1/2 left-10 flex justify-center items-start flex-col gap-5">
+      <div className="w-fit lg:w-full absolute top-1/2 -translate-y-1/2 left-1/2 -translate-x-1/2 lg:left-10 lg:-translate-x-0 flex justify-center items-center lg:items-start flex-col gap-5">
         <h1 className=" font-extrabold tracking-tight text-white text-6xl">
           Welcome !
         </h1>
-        <p className=" text-lg text-white bg-principal rounded-lg p-2">
+        <p className=" text-base lg:text-lg text-white bg-principal rounded-lg p-2">
           Organize the event you want, wherever you want!
         </p>
         <SearchCity />

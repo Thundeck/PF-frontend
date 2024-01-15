@@ -1,58 +1,43 @@
-import React from 'react';
-import {useLocalStorage} from './hooks/useLocalStorage'
-import ComplexCard from './ComplexCard';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllComplex, getUserDetails, updateFavorite, updateUser} from '../redux/actions';
-import { useState } from 'react';
-// import { sendFavorites } from '../redux/actions';
-
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import ComplexCard from "./ComplexCard";
+import { deleteFavorite } from "../redux/actions";
 
 const ComplexFavorite = () => {
+  const currentUser = useSelector((state) => state.currentUser);
+  const dispatch = useDispatch();
 
-    const dispatch = useDispatch()
+  const handleRemoveFavorite = (id) => {
+    dispatch(deleteFavorite(currentUser?._id, id));
+  };
 
-    const currentUser = useSelector(state => state.currentUser)
-    const array = useSelector(state => state.complexs)
-    
-    const [value, setValue] = useLocalStorage("favorite",[])
-
-    const favorites = currentUser ? array.filter(e => currentUser?.favorites?.includes(e.id)) : array.filter(e => value.includes(e.id))
-
-
-    const handleRemoveFavorite = (id) =>{
-        if(!currentUser){
-            const filt = value.filter(ids => ids !== id)
-            setValue(filt)
-        } else{
-            const filt = currentUser?.favorites?.filter(ids => ids !== id)
-            dispatch(updateFavorite(currentUser.id,{...currentUser, favorites:filt},false))
-        }
-    }
-
-    useEffect(()=>{
-        currentUser && dispatch(getUserDetails(currentUser?.id))
-    },[])
-
-    
-
-
-
-   return (
-         <div className="flex w-full flex-col items-start m-10  justify-arounds  ">
-             <h2 className="mb-5 text-4xl font-bold text-blue-700">Favorites</h2>
-            <div className="flex w-full flex-col items-start justify-center">
-                {favorites?.length? favorites?.map((complex,index) => (
-                    <div key={index} className="flex flex-row items-center justify-center relative pr-16">
-                        <ComplexCard favorites={true} complexDetails={complex}/>
-                        <button onClick={() => handleRemoveFavorite(complex.id) } className="absolute top-5 right-6 w-14 h-11 ml-1 text-base font-semibold text-center text-white transition duration-200 ease-in bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2">
-                            borrar
-                        </button>
-                    </div>
-                )) :<p>has not yet saved any complexes</p>}
+  return (
+    <div className="flex flex-col items-center justify-center max-w-[50%] m-auto">
+      <h2 className="mb-5 text-4xl font-bold text-principal dark:text-principal-dark">
+        Favorites
+      </h2>
+      <div className="flex w-full flex-col items-center justify-center">
+        {currentUser?.favorites?.length ? (
+          currentUser?.favorites?.map((complex) => (
+            <div
+              key={complex?._id}
+              className="flex flex-row items-center justify-center w-fit relative"
+            >
+              <ComplexCard complexDetails={complex} />
+              <button
+                onClick={() => handleRemoveFavorite(complex?._id)}
+                className="absolute top-0 right-0 font-semibold text-white py-2 px-4 transition duration-200 ease-in bg-principal dark:bg-principal-dark rounded-lg shadow-md hover:bg-principal-dark dark:hover:bg-principal "
+              >
+                delete
+              </button>
             </div>
-        </div>
-    );
-}
+          ))
+        ) : (
+          <p>has not yet saved any complexes</p>
+        )}
+      </div>
+    </div>
+  );
+};
 
 export default ComplexFavorite;

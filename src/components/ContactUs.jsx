@@ -22,9 +22,9 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="flex flex-col m-16 md:flex-row place-content-evenly">
+    <div className="flex flex-col my-16 lg:flex-row justify-center items-center gap-10 w-full">
       <div className="self-center max-w-xl">
-        <h2 className="mb-5 text-4xl font-bold text-blue-700">
+        <h2 className="mb-5 text-4xl font-bold text-principal dark:text-principal-dark">
           Do you want to try our app in your events complex?
         </h2>
         <p className="mt-10 text-2xl font-medium">
@@ -37,7 +37,7 @@ const ContactUs = () => {
       </div>
 
       <form
-        className="flex self-center w-full max-w-sm space-x-3 border flex-col px-5 py-10 m-auto mt-10 bg-principal-dark rounded-lg "
+        className="flex self-center w-full max-w-sm space-x-3 border flex-col px-5 py-10  mt-10 bg-principal dark:bg-principal-dark rounded-lg "
         onSubmit={handleFormSubmit}
       >
         <div className="mb-6 text-3xl text-center text-white ">
@@ -48,7 +48,7 @@ const ContactUs = () => {
             <input
               type="text"
               id="contact-form-name"
-              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm "
               placeholder="Name"
               value={name}
               name="name"
@@ -59,7 +59,7 @@ const ContactUs = () => {
             <input
               type="text"
               id="contact-form-email"
-              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm "
               placeholder="Email"
               value={email}
               name="email"
@@ -70,7 +70,7 @@ const ContactUs = () => {
             <input
               type="text"
               id="contact-form-name"
-              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm "
               placeholder="Complex"
               value={complex}
               name="complex"
@@ -81,7 +81,7 @@ const ContactUs = () => {
             <input
               type="number"
               id="contact-form-phone"
-              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm "
               placeholder="Phone"
               name="phone"
               value={phone}
@@ -92,7 +92,7 @@ const ContactUs = () => {
             <input
               type="text"
               id="contact-form-city"
-              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-transparent border-gray-300 rounded-lg shadow-sm "
               placeholder="City"
               name="city"
               value={city}
@@ -100,9 +100,9 @@ const ContactUs = () => {
             />
           </div>
           <div className="col-span-2">
-            <label className="text-gray-700" for="name">
+            <label className="text-gray-700" htmlFor="name">
               <textarea
-                className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-gray-300 rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                className="flex-1 w-full px-4 py-2 text-base text-gray-700 placeholder-gray-400 bg-gray-200 border border-gray-300 rounded-lg "
                 id="comment"
                 placeholder="Enter your comment"
                 name="comments"
@@ -116,7 +116,7 @@ const ContactUs = () => {
 
           <button
             type="submit"
-            className="w-full col-span-2 px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:ring-indigo-500 focus:ring-offset-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 "
+            className="w-full col-span-2 px-4 py-2 text-base font-semibold text-center text-white transition duration-200 ease-in bg-principal-dark dark:bg-principal rounded-lg shadow-md hover:bg-indigo-500/70  "
           >
             Send
           </button>

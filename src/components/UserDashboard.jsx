@@ -1,107 +1,162 @@
-import React from "react";
-import perfil from "../img/perfil.jpeg";
-import { Link } from "react-router-dom";
-import { useState } from "react";
-import uploadimg from "../img/uploadimg.png";
-import { useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserDetails } from "../redux/actions";
+import { Link } from "react-router-dom";
+import { updateUser } from "../redux/actions";
 
+const initialState = { profile_img: "", name: "" };
 const UserDashboard = () => {
   const dispatch = useDispatch();
-  const [images, setImages] = useState(uploadimg);
-  const [nombre, setNombre] = useState("User");
+  const [formData, setFormData] = useState(initialState);
+  const [name, setName] = useState("");
+  const [editName, setEditName] = useState(true);
   const currentUser = useSelector((state) => state.currentUser);
 
-  useEffect(() => {
-    if (localStorage.getItem("imagen")) {
-      setImages(localStorage.getItem("imagen"));
-    }
-    if (localStorage.getItem("nombree")) {
-      setNombre(localStorage.getItem("nombree"));
-    }
-    currentUser && dispatch(getUserDetails(currentUser?.id));
-  }, []);
-
-  const changeInput = () => {
-    let input = document.getElementById("file");
-    input.click();
-
-    input.onchange = () => {
-      let file = input.files[0];
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-
-      reader.onload = () => {
-        localStorage.setItem("imagen", reader.result);
-        setImages(reader.result);
-      };
+  const handleChangeImage = (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setFormData({ ...formData, profile_img: reader.result });
     };
   };
 
-  const cambiarNombre = () => {
-    let nombre = prompt("Enter your name");
-    localStorage.setItem("nombree", nombre);
-    setNombre(nombre);
+  const handleChange = () => {
+    setFormData({ ...formData, name });
+    setEditName(true);
+    setName("");
+  };
+
+  const handleUpdateUser = () => {
+    dispatch(updateUser(currentUser._id, formData));
+  };
+
+  const diferentThanUser = (obj) => {
+    if (
+      obj.name !== currentUser.name &&
+      obj.profile_img !== currentUser.profile_img
+    ) {
+      return true;
+    }
+    return false;
   };
 
   return (
-    <div>
-      <div
-        className="flex border border-gray-300 m-10 rounded-2xl p-2 "
-        style={{
-          height: "300px",
-          backgroundImage: `url(${perfil})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
-        <div className="mt-10 ml-10">
+    <div className="flex justify-start items-center flex-col p-12">
+      <div className="w-[80%] h-full flex justify-start items-end border-b-2 border-principal dark:border-principal-dark relative">
+        {formData !== initialState && diferentThanUser(formData) && (
+          <div>
+            <button
+              onClick={() => setFormData(initialState)}
+              className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 h-12 w-12 text-white font-bold py-2 px-2 rounded-full absolute top-0  right-0 flex justify-center items-center"
+            >
+              <i className="fa-solid fa-arrow-rotate-left"></i>
+            </button>
+            <button
+              onClick={() => handleUpdateUser()}
+              className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 h-fit w-fit text-white font-bold py-2.5 px-2 rounded-full absolute bottom-2  right-0 flex justify-center items-center gap-2"
+            >
+              <i className="fa-solid fa-paper-plane"></i> Update
+            </button>
+          </div>
+        )}
+        <div className="w-fit h-fit relative">
+          <label
+            htmlFor="file-input-profile"
+            className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 h-12 w-12 text-white font-bold py-2 px-2 rounded-full absolute bottom-2  right-0 flex justify-center items-center"
+          >
+            <i className="fa-solid fa-pen"></i>
+          </label>
           <input
+            className="w-0"
             type="file"
-            id="file"
-            onChange={changeInput}
+            id="file-input-profile"
+            onChange={handleChangeImage}
             style={{ display: "none" }}
           />
           <img
-            src={images}
-            className="w-36 h-36 mb-3 border border-white rounded-md p-2"
-            alt="undraw-Online-chat-re-4r4y"
+            src={formData.profile_img || currentUser.profile_img}
+            className="w-36 h-36 mb-3 border object-cover rounded-full"
+            alt="profile"
             border="0"
-            onClick={changeInput}
           />
+        </div>
 
-          <h1 className="text-2xl font-bold mb-3 text-white">{nombre}</h1>
-          <button
-            className="bg-pink-500 hover:bg-pink-700 text-white font-bold py-2 px-2 rounded"
-            onClick={cambiarNombre}
+        <div className="w-fit pl-3 min-h-12 flex justify-center items-center flex-row-reverse gap-5 mb-3">
+          {editName ? (
+            <button
+              htmlFor="input-change-name"
+              onClick={() => setEditName(false)}
+              className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 h-12 w-12 text-white font-bold py-2 px-2 rounded-full  flex justify-center items-center"
+            >
+              <i className="fa-solid fa-pen"></i>
+            </button>
+          ) : (
+            <div className="flex justify-center items-center flex-row gap-5">
+              <button
+                htmlFor="input-change-name"
+                onClick={handleChange}
+                className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 h-12 w-12 text-white font-bold py-2 px-2 rounded-full  flex justify-center items-center"
+              >
+                <i className="fa-solid fa-check"></i>
+              </button>
+              <button
+                htmlFor="input-change-name"
+                onClick={() => {
+                  setEditName(true);
+                  setName("");
+                }}
+                className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 h-12 w-12 text-white font-bold py-2 px-2 rounded-full  flex justify-center items-center"
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          )}
+          {editName ? (
+            <h1 className=" text-3xl font-bold text-black">
+              {formData.name.length ? formData.name : currentUser.name}
+            </h1>
+          ) : (
+            <input
+              id="input-change-name"
+              className="text-3xl font-bold text-gray-800 rounded-md pl-3 max-w-60"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          )}
+        </div>
+      </div>
+      <div className="w-full h-fit flex justify-center items-center flex-col mt-10 gap-5">
+        <Link
+          className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 text-white font-bold py-2 px-4 rounded w-[80%] min-h-20 flex justify-between items-center"
+          to="/"
+        >
+          <p>New Reservation</p>
+          <i className="fa-solid fa-chevron-right text-2xl"></i>
+        </Link>
+        <Link
+          className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 text-white font-bold py-2 px-4 rounded w-[80%] min-h-20 flex justify-between items-center"
+          to="/reservations"
+        >
+          <p>My Reservations</p>
+          <i className="fa-solid fa-chevron-right text-2xl"></i>
+        </Link>
+        <Link
+          className="bg-yellow-500 hover:bg-yellow-300 text-white font-bold py-2 px-4 rounded w-[80%] min-h-20 flex justify-between items-center"
+          to="/favorites"
+        >
+          <p>My Favorites</p>
+          <i className="fa-solid fa-chevron-right text-2xl"></i>
+        </Link>
+        {currentUser.rol === "client" && (
+          <Link
+            className="bg-principal-dark hover:bg-principal dark:bg-principal dark:hover:bg-principal/50 text-white font-bold py-2 px-4 rounded w-[80%] min-h-20 flex justify-between items-center"
+            to="/create"
           >
-            Change Name
-          </button>
-        </div>
-        <div className="mt-10 ml-10">
-          <Link to="/search">
-            <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-10">
-              New Reservation
-            </button>
+            Create Complex
+            <i className="fa-solid fa-chevron-right text-2xl"></i>
           </Link>
-          <Link to="/reservations">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10">
-              My Reservations
-            </button>
-          </Link>
-          <Link to="/favorites">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10">
-              My Favorites
-            </button>
-          </Link>
-          <Link to="/create">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-10">
-              {currentUser.rol === "owner" ? "Create Complex" : "Be Owner"}
-            </button>
-          </Link>
-        </div>
+        )}
       </div>
     </div>
   );

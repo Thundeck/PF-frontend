@@ -14,23 +14,19 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
-.scrollbar::-webkit-scrollbar {
-  width: 20px;
-  height: 10px;
+::-webkit-scrollbar {
+  width: 8px; /* Ancho del scrollbar */
 }
 
-.scrollbar::-webkit-scrollbar-track {
-  border-radius: 20px;
-  background: #f7f4ed;
+/* Estilo del track del scrollbar */
+::-webkit-scrollbar-track {
+  background: #e7e7e7; /* Color del track */
 }
 
-.scrollbar::-webkit-scrollbar-thumb {
-  background: #e0cbcb;
-  border-radius: 20px;
-  border: 3px solid #f6f7ed;
-}
-
-.scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #c0a0b9;
+/* Estilo del thumb del scrollbar */
+::-webkit-scrollbar-thumb {
+  background-color: #405cbb; /* Color del thumb */
+  border-radius: 20px; /* Redondez del thumb */
+  border: 1px solid #e7e7e7; /* Borde y separación del thumb */
 }
 
